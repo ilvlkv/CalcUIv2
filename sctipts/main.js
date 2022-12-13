@@ -1,205 +1,200 @@
-let number1;
-let number2;
-let operator;
-let result;
+const buffer = ["0"];
 
-function one() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "1");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "1");
+const calcDisplay = document.getElementById("display_text");
+
+let number1 = null;
+let number2 = null;
+let operator = null;
+let last_result = null;
+
+// добавление числа
+
+function addNumberToArray() {
+  checkFirstValue();
+
+  return buffer.push(document.querySelector(".button:hover").id);
+}
+
+function checkFirstValue() {
+  switch (buffer[0]) {
+    case "0":
+      return buffer.splice(0, 1);
+    case "-":
+      switch (buffer[1]) {
+        case "0":
+          return buffer.splice(1, 1);
+      }
   }
 }
 
-oneButton.addEventListener("click", one);
+// рендер числа
 
-function two() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "2");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "2");
+function renderInputs() {
+  const value = buffer.join("");
+
+  return (calcDisplay.innerHTML = value), console.log(buffer);
+}
+
+// превращение числа в дробь
+
+function doFloat() {
+  const flag = buffer.includes(".");
+
+  if (flag == false) {
+    return buffer.push("."), renderInputs();
+  } else {
+    const index = buffer.indexOf(".");
+
+    return buffer.splice(index), renderInputs();
   }
 }
 
-twoButton.addEventListener("click", two);
+// добавление нулей
 
-function three() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "3");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "3");
+function addZero() {
+  if (buffer[0] == "0" || buffer[0] == "-") {
+    return;
+  } else {
+    buffer.push("0"), renderInputs();
   }
 }
 
-threeButton.addEventListener("click", three);
+// изменение знака
 
-function four() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "4");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "4");
-  }
-}
+function changeSign() {
+  const flag = buffer.includes("-");
 
-fourButton.addEventListener("click", four);
+  if (flag == false) {
+    return buffer.unshift("-"), renderInputs();
+  } else {
+    const index = buffer.indexOf("-");
 
-function five() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "5");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "5");
+    return buffer.splice(index, 1), renderInputs();
   }
 }
 
-fiveButton.addEventListener("click", five);
+// очистка
 
-function six() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "6");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "6");
-  }
+function clearNum() {
+  return buffer.splice(0), buffer.push("0"), renderInputs();
 }
 
-sixButton.addEventListener("click", six);
+// операции с числами
 
-function seven() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "7");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "7");
-  }
-}
+function operate() {
+  const operator_value = document.querySelector(".button:hover").id;
 
-sevenButton.addEventListener("click", seven);
+  const number_value = calcDisplay.textContent;
 
-function eight() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "8");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "8");
-  }
-}
-
-eightButton.addEventListener("click", eight);
-
-function nine() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "9");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "9");
-  }
-}
-
-nineButton.addEventListener("click", nine);
-
-function zero() {
-  let text = document.querySelector("p").textContent;
-  if (document.querySelector("p").textContent == "0") {
-    return (document.querySelector("p").innerHTML = "0");
-  }
-  for (; text.length < 18; text++) {
-    return (document.querySelector("p").innerHTML += "0");
-  }
-}
-
-zeroButton.addEventListener("click", zero);
-
-function clear() {
   return (
-    (document.querySelector("p").innerHTML = "0"),
-    (result = 0),
-    (number1 = 0),
-    (number2 = 0)
+    (number1 = Number(number_value)),
+    (operator = operator_value),
+    buffer.splice(0),
+    buffer.push("0"),
+    renderInputs()
   );
 }
 
-clearButton.addEventListener("click", clear);
+// результат операции
 
-function summary() {
-  return (
-    (number1 = Number(document.querySelector("p").textContent)),
-    (operator = "+"),
-    (document.querySelector("p").innerHTML = "0")
-  );
-}
+function showOperationResult() {
+  number2 = Number(calcDisplay.textContent);
 
-plusButton.addEventListener("click", summary);
-
-function difference() {
-  return (
-    (number1 = Number(document.querySelector("p").textContent)),
-    (operator = "-"),
-    (document.querySelector("p").innerHTML = "0")
-  );
-}
-
-minusButton.addEventListener("click", difference);
-
-function multiply() {
-  return (
-    (number1 = Number(document.querySelector("p").textContent)),
-    (operator = "*"),
-    (document.querySelector("p").innerHTML = "0")
-  );
-}
-
-multiplyButton.addEventListener("click", multiply);
-
-function divide() {
-  return (
-    (number1 = Number(document.querySelector("p").textContent)),
-    (operator = "/"),
-    (document.querySelector("p").innerHTML = "0")
-  );
-}
-
-divideButton.addEventListener("click", divide);
-
-function getResult() {
-  number2 = Number(document.querySelector("p").textContent);
-  if (operator == "+") {
-    return (
-      (result = number1 + number2),
-      (document.querySelector("p").innerHTML = result)
-    );
-  }
-  if (operator == "-") {
-    return (
-      (result = number1 - number2),
-      (document.querySelector("p").innerHTML = result)
-    );
-  }
-  if (operator == "*") {
-    return (
-      (result = number1 * number2),
-      (document.querySelector("p").innerHTML = result)
-    );
-  }
-  if (operator == "/") {
-    return (
-      (result = number1 / number2),
-      (document.querySelector("p").innerHTML = result)
-    );
+  switch (operator) {
+    case "summary":
+      return (
+        (last_result = number1 + number2),
+        console.log(last_result),
+        (calcDisplay.innerHTML = last_result),
+        setTimeout(() => {
+          clearVariables();
+        }, 0)
+      );
+    case "difference":
+      return (
+        (last_result = number1 - number2),
+        console.log(last_result),
+        (calcDisplay.innerHTML = last_result),
+        setTimeout(() => {
+          clearVariables();
+        }, 0)
+      );
+    case "multiply":
+      return (
+        (last_result = number1 * number2),
+        console.log(last_result),
+        (calcDisplay.innerHTML = last_result),
+        setTimeout(() => {
+          clearVariables();
+        }, 0)
+      );
+    case "divide":
+      return (
+        (last_result = number1 / number2),
+        console.log(last_result),
+        (calcDisplay.innerHTML = last_result),
+        setTimeout(() => {
+          clearVariables();
+        }, 0)
+      );
+    case "percentage":
+      return (
+        (last_result = number1 * (number2 / 100)),
+        console.log(last_result),
+        (calcDisplay.innerHTML = last_result),
+        setTimeout(() => {
+          clearVariables();
+        }, 0)
+      );
   }
 }
 
-equalButton.addEventListener("click", getResult);
+// очистка переменных и массивов
+
+function clearVariables() {
+  return (number1 = null), (number2 = null), (operator = null);
+}
+
+// квадратный корень
+
+function getSquareRoot() {
+  number1 = calcDisplay.textContent;
+
+  last_result = Math.sqrt(number1);
+
+  if (!last_result) {
+    alert("Не могу извлечь квадратный корень из отрицательного числа :(");
+  } else {
+    (calcDisplay.innerHTML = last_result),
+      setTimeout(() => {
+        clearVariables();
+      }, 0);
+  }
+}
+
+// обработчики
+
+const numbers_btns = document.querySelectorAll(".button.number");
+
+numbers_btns.forEach((item) => {
+  item.addEventListener("click", addNumberToArray),
+    item.addEventListener("click", renderInputs);
+});
+
+const operators_btns = document.querySelectorAll(".button.operator");
+
+operators_btns.forEach((item) => {
+  item.addEventListener("click", operate);
+});
+
+dot.addEventListener("click", doFloat);
+
+zero.addEventListener("click", addZero);
+
+sign.addEventListener("click", changeSign);
+
+clear.addEventListener("click", clearNum);
+
+equal.addEventListener("click", showOperationResult);
+
+root.addEventListener("click", getSquareRoot);
